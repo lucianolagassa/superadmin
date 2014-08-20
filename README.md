@@ -1,4 +1,4 @@
-superadmin
+SuperAdmin
 ==========
 
 Gestor de Conecciones para Administrar Multiples Equipos, Permite Utilizar Diferentes Perfiles y Agrupar Equipos con sus Servicios.
