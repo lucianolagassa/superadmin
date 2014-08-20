@@ -1,0 +1,444 @@
+# Gambas Form File 2.0
+
+{ Form Form
+  Move(0,0,1519,1414)
+  #(Scaled) = False
+  Text = ("SuperAdmin")
+  Icon = Picture["SuperAdmin.png"]
+  Border = Window.Fixed
+  { MenuProfile Menu
+    Text = ("Profiles")
+    Visible = False
+    { MenuProfileNuevo Menu
+      Text = ("Nuevo")
+      Picture = Picture["Images/menu-new.png"]
+    }
+    { MenuProfileModificar Menu
+      Text = ("Modificar")
+      Picture = Picture["Images/menu-change.png"]
+    }
+    { MenuProfileEliminar Menu
+      Text = ("Eliminar")
+      Picture = Picture["Images/menu-remove.png"]
+    }
+  }
+  { MenuGroup Menu
+    Text = ("Grupos")
+    Visible = False
+    { MenuGroupNuevo Menu
+      Text = ("Nuevo")
+      Picture = Picture["Images/menu-new.png"]
+    }
+    { MenuGroupModificar Menu
+      Text = ("Modificar")
+      Picture = Picture["Images/menu-change.png"]
+    }
+    { MenuGroupEliminar Menu
+      Text = ("Eliminar")
+      Picture = Picture["Images/menu-remove.png"]
+    }
+  }
+  { MenuItem Menu
+    Text = ("Servicios")
+    Visible = False
+    { MenuItemNuevo Menu
+      Text = ("Nuevo")
+      Picture = Picture["Images/menu-new.png"]
+    }
+    { MenuItemEjecutar Menu
+      Text = ("Ejecutar")
+      Picture = Picture["Images/menu-run.png"]
+    }
+    { MenuItemModificar Menu
+      Text = ("Modificar")
+      Picture = Picture["Images/menu-change.png"]
+    }
+    { MenuItemEliminar Menu
+      Text = ("Eliminar")
+      Picture = Picture["Images/menu-remove.png"]
+    }
+  }
+  { MainPanel Panel
+    Move(7,7,749,511)
+    { Label1 Label
+      Move(343,77,392,21)
+      Font = Font["Bold,+1"]
+      Text = ("Servicios")
+      Alignment = Align.Center
+    }
+    { GroupList TreeView
+      Move(7,105,329,392)
+    }
+    { ItemList ListView
+      Move(343,105,392,392)
+      Font = Font["Bold,+1"]
+    }
+    { Label3 Label
+      Move(7,77,329,21)
+      Font = Font["Bold,+1"]
+      Text = ("Grupos")
+      Alignment = Align.Center
+    }
+    { ProfilesImage PictureBox
+      Move(7,28,42,42)
+      Alignment = Align.Center
+      Border = Border.Raised
+    }
+    { AppConfig Button
+      Move(644,28,42,42)
+      ToolTip = ("Editar Perfil")
+      Text = ("")
+      Picture = Picture["Images/config.png"]
+    }
+    { LoLabel Label
+      Move(7,0,728,21)
+      Font = Font["Bold,+2"]
+      Text = ("Perfiles")
+      Alignment = Align.Center
+    }
+    { ProfilesText ComboBox
+      Move(56,28,581,42)
+      Font = Font["Bold,+1"]
+      ReadOnly = True
+      Text = ("Seleccionar Perfil")
+    }
+    { InfoAbrir Button
+      Move(693,28,42,42)
+      Text = ("")
+      Picture = Picture["Images/info.png"]
+    }
+  }
+  { ProfilePanel Panel
+    Move(7,1057,497,287)
+    Visible = False
+    Border = Border.Plain
+    { ProfileName TextBox
+      Move(112,70,357,28)
+      Text = ("")
+    }
+    { ProfileText TextBox
+      Move(112,105,357,28)
+      Text = ("")
+    }
+    { ProfileLogo TextBox
+      Move(140,140,294,28)
+      Text = ("")
+    }
+    { ProfileOpen Button
+      Move(441,140,28,28)
+      Text = ("...")
+    }
+    { ProfileAceptar Button
+      Move(175,210,133,49)
+      Text = ("Aceptar")
+    }
+    { ProfileCancelar Button
+      Move(336,210,133,49)
+      Text = ("Cancelar")
+    }
+    { ProfileTitle Label
+      Move(7,14,483,28)
+      Font = Font["Bold,+3"]
+      Text = ("Nuevo Perfil")
+      Alignment = Align.Center
+    }
+    { Label13 Label
+      Move(21,70,91,28)
+      Font = Font["Bold"]
+      Text = ("Nombre")
+    }
+    { Label11 Label
+      Move(21,105,91,28)
+      Font = Font["Bold"]
+      Text = ("Texto")
+    }
+    { Label12 Label
+      Move(21,140,91,28)
+      Font = Font["Bold"]
+      Text = ("Logo")
+    }
+    { ProfileLogoImage PictureBox
+      Move(112,140,28,28)
+      Alignment = Align.Center
+    }
+  }
+  { ItemPanel Panel
+    Move(511,896,497,448)
+    Visible = False
+    Border = Border.Plain
+    { ItemGroup TextBox
+      Move(112,70,357,28)
+      Text = ("")
+    }
+    { ItemName TextBox
+      Move(112,105,357,28)
+      Text = ("")
+    }
+    { ItemType ComboBox
+      Move(140,140,329,28)
+      List = [("IPCAM"), ("MOBILE"), ("NETBOOK"), ("NETWORK"), ("NOTEBOOK"), ("PC"), ("PLAYER"), ("PRINTER"), ("SERVER"), ("UNKNOWN"), ("WEBHOST")]
+      Text = ("Seleccionar Tipo")
+    }
+    { ItemText TextBox
+      Move(112,175,357,28)
+      Text = ("")
+    }
+    { ItemUser TextBox
+      Move(112,210,357,28)
+      Text = ("")
+    }
+    { ItemPass TextBox
+      Move(112,245,357,28)
+      Text = ("")
+    }
+    { ItemHost TextBox
+      Move(112,280,357,28)
+      Text = ("")
+    }
+    { ItemMode ComboBox
+      Move(112,315,357,28)
+      Text = ("Seleccionar Modo")
+    }
+    { ItemAceptar Button
+      Move(175,378,133,49)
+      Text = ("Aceptar")
+    }
+    { ItemCancelar Button
+      Move(336,378,133,49)
+      Text = ("Cancelar")
+    }
+    { Label2 Label
+      Move(21,105,91,28)
+      Font = Font["Bold"]
+      Text = ("Equipo")
+    }
+    { Label4 Label
+      Move(21,175,91,28)
+      Font = Font["Bold"]
+      Text = ("Servicio")
+    }
+    { ItemTitle Label
+      Move(7,14,483,28)
+      Font = Font["Bold,+3"]
+      Text = ("Nuevo Servicio")
+      Alignment = Align.Center
+    }
+    { Label5 Label
+      Move(21,70,91,28)
+      Font = Font["Bold"]
+      Text = ("Grupo")
+    }
+    { Label6 Label
+      Move(21,210,91,28)
+      Font = Font["Bold"]
+      Text = ("Usuario")
+    }
+    { Label7 Label
+      Move(21,245,91,28)
+      Font = Font["Bold"]
+      Text = ("Contrase\xC3\xB1a")
+    }
+    { Label8 Label
+      Move(21,280,91,28)
+      Font = Font["Bold"]
+      Text = ("Direcci\xC3\xB3n")
+    }
+    { Label9 Label
+      Move(21,315,91,28)
+      Font = Font["Bold"]
+      Text = ("Modo")
+    }
+    { Label10 Label
+      Move(21,140,91,28)
+      Font = Font["Bold"]
+      Text = ("Tipo")
+    }
+    { ItemTypeImage PictureBox
+      Move(112,140,28,28)
+      Alignment = Align.Center
+    }
+  }
+  { InfoPanel Panel
+    Move(7,539,497,511)
+    Visible = False
+    Border = Border.Plain
+    { InfoCerrar Button
+      Move(336,455,133,35)
+      Text = ("Cerrar")
+    }
+    { PictureBox1 PictureBox
+      Move(126,28,259,259)
+      Picture = Picture["SuperAdmin.png"]
+    }
+    { InfoAutor Label
+      Move(7,357,483,28)
+      Font = Font["Bold,+2"]
+      Text = ("LAGA Systems")
+      Alignment = Align.Center
+    }
+    { InfoVersion Label
+      Move(7,294,483,14)
+      Font = Font["Bold"]
+      Text = ("Version")
+      Alignment = Align.Center
+    }
+    { InfoWeb Button
+      Move(28,455,133,35)
+      Text = ("Sitio Web")
+    }
+    { InfoTexto TextLabel
+      Move(7,315,483,35)
+      Text = ("Gestor de Conecciones para Administrar Multiples Equipos, Permite Utilizar Diferentes Perfiles y Agrupar Equipos con sus Servicios.")
+      Alignment = Align.Center
+    }
+    { InfoAutor2 Label
+      Move(7,385,483,21)
+      Font = Font["Bold,+1"]
+      Text = ("Servicios Inform\xC3\xA1ticos")
+      Alignment = Align.Center
+    }
+    { InfoAutor3 Label
+      Move(7,406,483,21)
+      Font = Font["Bold,+1"]
+      Text = ("Armstrong, Santa Fe, Argentina")
+      Alignment = Align.Center
+    }
+  }
+  { Develop Label
+    Move(0,0,21,21)
+    Text = ("")
+  }
+  { TabStrip1 TabStrip
+    Move(770,7,616,511)
+    Count = 3
+    Index = 0
+    Text = ("Datos")
+    { DataName ListBox
+      Move(161,14,140,203)
+    }
+    { DataUser ListBox
+      Move(455,14,140,203)
+    }
+    { DataText ListBox
+      Move(308,14,140,203)
+    }
+    { DataPass ListBox
+      Move(14,231,140,203)
+    }
+    { DataHost ListBox
+      Move(161,231,140,203)
+    }
+    { DataMode ListBox
+      Move(308,231,140,203)
+    }
+    { DataType ListBox
+      Move(455,231,140,203)
+    }
+    { DataGroup ListBox
+      Move(14,14,140,203)
+    }
+    Index = 1
+    Text = ("Aplicaciones")
+    { AppsName ListBox
+      Move(140,14,455,105)
+    }
+    { AppsBase ListBox
+      Move(14,126,581,98)
+    }
+    { AppsMedio ListBox
+      Move(14,231,581,98)
+    }
+    { AppsCompleto ListBox
+      Move(14,336,581,98)
+    }
+    { AppsMode ListBox
+      Move(14,14,119,105)
+    }
+    Index = 2
+    Text = ("Otros")
+    { ListaBackup ListBox
+      Move(14,224,581,210)
+    }
+    { ProfilesName ListBox
+      Move(14,14,574,196)
+    }
+    { Comilla TextLabel
+      Move(0,7,14,21)
+      Background = &H606060&
+      Text = ("\"")
+    }
+    Index = 0
+  }
+  { AppPanel Panel
+    Move(511,539,497,350)
+    Border = Border.Plain
+    { AppAceptar Button
+      Move(168,280,133,49)
+      Text = ("Aceptar")
+    }
+    { AppCancelar Button
+      Move(329,280,133,49)
+      Text = ("Cancelar")
+    }
+    { AppMode ComboBox
+      Move(140,77,322,28)
+      ToolTip = ("Seleccionar el Modo a Editor")
+      Text = ("Seleccionar Modo")
+    }
+    { AppMedio TextBox
+      Move(112,182,350,28)
+      ToolTip = ("Ingresar Argumentos ,Utilizar ##ID## para Usuario o ID, Utilizar ##HOST## para IP o Dominio, Utilizar NO para Desactivar")
+      Text = ("NO")
+    }
+    { AppBase TextBox
+      Move(112,147,350,28)
+      ToolTip = ("Ingresar Argumentos ,Utilizar ##HOST## para IP o Dominio, Utilizar NO para Desactivar")
+      Text = ("NO")
+    }
+    { ConfigTitle Label
+      Move(7,14,483,28)
+      Font = Font["Bold,+3"]
+      Text = ("Configuraci\xC3\xB3n de Modos")
+      Alignment = Align.Center
+    }
+    { Label14 Label
+      Move(21,112,77,28)
+      Font = Font["Bold"]
+      Text = ("Aplicaci\xC3\xB3n")
+    }
+    { Label16 Label
+      Move(21,147,77,28)
+      Font = Font["Bold"]
+      Text = ("Base")
+    }
+    { Label17 Label
+      Move(21,182,77,28)
+      Font = Font["Bold"]
+      Text = ("Medio")
+    }
+    { Label18 Label
+      Move(21,217,77,28)
+      Font = Font["Bold"]
+      Text = ("Completo")
+    }
+    { AppCompleto TextBox
+      Move(112,217,350,28)
+      ToolTip = ("Ingresar Argumentos ,Utilizar ##ID## para Usuario o ID, Utilizar ##PASS## para Contrase\xC3\xB1a, Utilizar ##HOST## para IP o Dominio, Utilizar NO para Desactivar")
+      Text = ("NO")
+    }
+    { AppName TextBox
+      Move(112,112,350,28)
+      ToolTip = ("Ingresar Comando o Aplicaci\xC3\xB3n sin Argumentos")
+      Text = ("")
+    }
+    { Label20 Label
+      Move(21,77,77,28)
+      Font = Font["Bold"]
+      Text = ("Modo")
+    }
+    { AppModeImage PictureBox
+      Move(112,77,28,28)
+      Alignment = Align.Center
+    }
+  }
+}

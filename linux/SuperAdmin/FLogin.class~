@@ -1,0 +1,105 @@
+' Gambas class file
+' Variables Generales
+PUBLIC ConfigDir AS String
+PUBLIC ConfigFile AS String
+PUBLIC ImagesDir AS String
+PUBLIC InstallDir AS String
+PUBLIC ProfilesDir AS String
+PUBLIC HashTest AS String
+
+PUBLIC SUB _new()
+
+END
+
+PUBLIC SUB Form_Open()
+ ME.Height = 175
+ ME.Width = 322
+ ME.Center
+ ConfigDir = User.Home & "/.config/SuperAdmin/"
+ ConfigFile = ConfigDir & Lower$(System.Host) & ".conf"
+ InstallDir = "/usr/lib/SuperAdmin/"
+ ImagesDir = "/usr/share/icons/SuperAdmin/"
+ ProfilesDir = ConfigDir & "Profiles/"
+ GenerarConfig
+ FLogin.SetFocus
+ Seguridad.SetFocus
+END
+
+PRIVATE SUB GenerarConfig()
+ 'Crea Carpeta de Config
+ IF Exist(ConfigDir) = FALSE THEN
+  MKDIR ConfigDir
+ ENDIF 
+ 'Crea Carpeta de Perfiles
+ IF Exist(ProfilesDir) = FALSE THEN
+  MKDIR ProfilesDir
+ ENDIF 
+ 'Crea Config y Perfiles Demo
+ IF Exist(ConfigFile) = FALSE THEN
+  COPY InstallDir & "Demo/Config.conf" TO ConfigFile
+  MKDIR ConfigDir & "Profiles/Demo1"
+  MKDIR ConfigDir & "Profiles/Demo2"
+  COPY ImagesDir & "demo1.png" TO ProfilesDir & "Demo1/Logo.png"
+  COPY ImagesDir & "demo2.png" TO ProfilesDir & "Demo2/Logo.png"
+  COPY InstallDir & "Demo/App.conf" TO ProfilesDir & "Demo1/App.conf"
+  COPY InstallDir & "Demo/App.conf" TO ProfilesDir & "Demo2/App.conf"
+  COPY InstallDir & "Demo/Data.conf" TO ProfilesDir & "Demo1/Data.conf"
+  COPY InstallDir & "Demo/Data.conf" TO ProfilesDir & "Demo2/Data.conf"
+  Message("Esta es la Primera vez que se Inicia la Aplicación, Se Creo una Configuración Demo, la Contraseña es: 1234")
+ ENDIF 
+END
+
+PUBLIC SUB Form_Close()
+ QUIT 
+END
+
+PUBLIC SUB Aceptar_Click()
+ DIM Archivo AS File
+ DIM Dato AS String
+ DIM HashTemp AS String
+ DIM HashData AS String
+ DIM Lineas AS String[]
+ IF Seguridad.Length = 0 THEN 
+  Message("Error, Contraseña No Ingresada.") 
+ ELSE
+  IF Exist(ConfigFile) = FALSE THEN
+   Message("Error en Archivo de Configuración, No se Puede Cargar Datos.")
+   QUIT 
+  ELSE 
+   Archivo = OPEN ConfigFile FOR INPUT
+    LINE INPUT #Archivo, Dato
+   CLOSE #Archivo
+   HashData = Replace$(Dato, Comilla.Text, "")
+   HashTemp = Replace$(crypt.MD5(Seguridad.Text, "LAGASyst"), "$1$LAGASyst$", "")
+   IF HashTemp = HashData THEN 
+    'HashTest = HashData
+    FMain.Show
+    FLogin.Hide
+   ELSE 
+    Message("Error, Contraseña Incorrecta.")
+    QUIT 
+   ENDIF 
+  ENDIF 
+ ENDIF 
+END
+
+PUBLIC SUB Seguridad_KeyPress()
+ IF key.Code = key.Enter OR key.Code = key.Return THEN 
+  Aceptar_Click() 
+ ENDIF 
+END
+
+PUBLIC SUB Generar_DblClick()
+ IF Seguridad.Text <> NULL THEN 
+  IF HashText.Visible = FALSE THEN 
+   HashText.Visible = TRUE
+   HashText.Text = Replace$(crypt.MD5(Seguridad.Text, "LAGASyst"), "$1$LAGASyst$", "")
+  ELSE 
+   HashText.Visible = FALSE
+  ENDIF 
+ ENDIF 
+END
+
+PUBLIC SUB Cancelar_Click()
+ QUIT 
+END

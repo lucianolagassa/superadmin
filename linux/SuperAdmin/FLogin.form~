@@ -1,0 +1,43 @@
+# Gambas Form File 2.0
+
+{ Form Form
+  Move(0,0,322,175)
+  #(Scaled) = False
+  Text = ("SuperAdmin - Ingreso")
+  Icon = Picture["SuperAdmin.png"]
+  Border = Window.Fixed
+  { Seguridad TextBox
+    Move(14,56,294,35)
+    Text = ("")
+    Password = True
+  }
+  { Label1 Label
+    Move(14,21,294,28)
+    Font = Font["Bold,+4"]
+    Text = ("Contrase\xC3\xB1a")
+    Alignment = Align.Center
+  }
+  { Cancelar Button
+    Move(175,112,133,49)
+    Text = ("Cancelar")
+  }
+  { Aceptar Button
+    Move(14,112,133,49)
+    Text = ("Aceptar")
+  }
+  { Comilla Label
+    Move(294,0,14,14)
+    Visible = False
+    Background = &H808080&
+    Text = ("\"")
+  }
+  { Generar Label
+    Move(0,0,21,21)
+    Text = ("")
+  }
+  { HashText TextBox
+    Move(14,14,294,35)
+    Visible = False
+    Text = ("")
+  }
+}

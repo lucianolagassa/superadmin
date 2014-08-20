@@ -1,0 +1,24 @@
+# Gambas Project File 2.0
+# Compiled with Gambas 2.23.1
+Title=SuperAdmin
+Startup=FLogin
+Icon=SuperAdmin.png
+Version=0.13.1724
+Library=gb.gui
+Library=gb.form
+Library=gb.crypt
+Library=gb.desktop
+Library=gb.image
+Description=Gestor de Conecciones para Administrar Multiples Equipos, Permite Utilizar Diferentes Perfiles y Agrupar Equipos con sus Servicios.
+Authors=Luciano Javier Lagassa
+TabSize=2
+ExecPath=/home/laga/Documentos/LAGA/Fuente/Gambas/SuperAdmin/Paquete/setup/usr/lib/SuperAdmin/SuperAdmin.gambas
+Maintainer=Luciano Javier Lagassa
+Vendor=LAGA Systems
+Address=info@lagasystems.com.ar
+License=General Public Licence
+UseRelease=1
+Systems=debian,ubuntu
+Menus=Applications/System/Administration,Apps/Net
+Categories=Network;RemoteAccess;System,RemoteAccess
+Groups=admin,Networking/Remote access

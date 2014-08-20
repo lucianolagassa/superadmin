@@ -1,0 +1,229 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2002-11-01 04:27+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: FLogin.class:146 FMain.class:586
+msgid "\""
+msgstr "\""
+
+#: FLogin.class:140 FMain.class:736
+msgid "Aceptar"
+msgstr "OK"
+
+#: .project:2
+msgid "Administrador de Conecciones, Util para Administradores de Sistemas y Redes, Permite Agrupar Equipos con Soporte Multiples Perfiles y Servicios."
+msgstr "Connections Manager, Tool for System and Network Administrators, Support Allows Grouping with Multiple Profiles Equipment and Services."
+
+#: FMain.class:600
+msgid "App"
+msgstr "App"
+
+#: FLogin.class:135 FMain.class:731
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: FLogin.class:129 FMain.class:692
+msgid "Contraseña"
+msgstr "Password"
+
+#: FLogin.class:162
+msgid "Contraseña Correcta"
+msgstr "Password Correct"
+
+#: FMain.class:549
+msgid "Data"
+msgstr "Data"
+
+#: FMain.class:703
+msgid "Dirección"
+msgstr "Host"
+
+#: FMain.class:527
+msgid "Editar Perfil"
+msgstr "Edit Profile"
+
+#: FMain.class:476
+msgid "Ejecutar"
+msgstr "Run"
+
+#: FMain.class:441
+msgid "Eliminar"
+msgstr "Remove"
+
+#: FMain.class:646
+msgid "Equipo"
+msgstr "Host"
+
+#: FLogin.class:162
+msgid "Error, Contraseña Incorrecta."
+msgstr "Error, Incorrect Password."
+
+#: FLogin.class:162
+msgid "Error, Contraseña No Ingresada."
+msgstr "Error, Password in blank"
+
+#: FMain.class:625
+msgid "Error en Archivo de Comandos, No se Puede Cargar Datos"
+msgstr "Command File Error, Can not Load Data."
+
+#: FLogin.class:162 FMain.class:625
+msgid "Error en Archivo de Configuración, No se Puede Cargar Datos."
+msgstr "Configuration File Error, Can not Load Data."
+
+#: FMain.class:625
+msgid "Error en Archivo de Perfil, No se Puede Cargar Datos."
+msgstr "Profile File Error, Can not Load Data."
+
+#: FLogin.class:162
+msgid "Error en Carpeta de Configuración, No se Puede Cargar Datos."
+msgstr "Error en Archivo de Configuración, No se Puede Cargar Datos."
+
+#: FLogin.class:162
+msgid "Esta es la Primera vez que se Inicia la Aplicación, Se Creo una Configuración Demo, la Contraseña es: 1234"
+msgstr "This is the first time the application starts, Demo Setup, Password is think is: 1234"
+
+#: FLogin.class:162
+msgid "Finalizando Aplicación."
+msgstr "Completing Application."
+
+#: FMain.class:625
+msgid "Función No Disponible."
+msgstr "Function Not Available."
+
+#: FLogin.class:162
+msgid "Generado Estructura Basica."
+msgstr "Generated Basic Structure."
+
+#: FMain.class:665
+msgid "Grupo"
+msgstr "Group"
+
+#: FMain.class:514
+msgid "Grupos"
+msgstr "Groups"
+
+#: FLogin.class:162
+msgid "Iniciando Aplicación."
+msgstr "Starting Application."
+
+#: FMain.class:725
+msgid "IPCam"
+msgstr ""
+
+#: FMain.class:447
+msgid "MenuGroup"
+msgstr "MenuGroup"
+
+#: FMain.class:467
+msgid "MenuItem"
+msgstr "MenuItem"
+
+#: FMain.class:427
+msgid "MenuProfile"
+msgstr "MenuProfile"
+
+#: FMain.class:725
+msgid "Mobile"
+msgstr ""
+
+#: FMain.class:436
+msgid "Modificar"
+msgstr "Change"
+
+#: FMain.class:714
+msgid "Modo"
+msgstr "Mode"
+
+#: FMain.class:725
+msgid "Netbook"
+msgstr ""
+
+#: FMain.class:725
+msgid "Network"
+msgstr ""
+
+#: FMain.class:725
+msgid "Notebook"
+msgstr ""
+
+#: FMain.class:431
+msgid "Nuevo"
+msgstr "New"
+
+#: FMain.class:658
+msgid "Nuevo Servicio"
+msgstr "New Service"
+
+#: FMain.class:725
+msgid "PC"
+msgstr ""
+
+#: FMain.class:535
+msgid "Perfiles"
+msgstr "Profiles"
+
+#: FMain.class:725
+msgid "Player"
+msgstr ""
+
+#: FMain.class:725
+msgid "Printer"
+msgstr ""
+
+#: FMain.class:708
+msgid "Seleccionar Modo"
+msgstr "Select Mode"
+
+#: FMain.class:543
+msgid "Seleccionar Perfil"
+msgstr "Select Profile"
+
+#: FMain.class:726
+msgid "Seleccionar Tipo"
+msgstr "Select Type"
+
+#: FMain.class:725
+msgid "Server"
+msgstr ""
+
+#: FMain.class:652
+msgid "Servicio"
+msgstr "Service"
+
+#: FMain.class:498
+msgid "Servicios"
+msgstr "Services"
+
+#: .project:1 FMain.class:422
+msgid "SuperAdmin"
+msgstr "SuperAdmin"
+
+#: FLogin.class:116
+msgid "SuperAdmin - Ingreso"
+msgstr "SuperAdmin - Login"
+
+#: FMain.class:720
+msgid "Tipo"
+msgstr "Type"
+
+#: FMain.class:725
+msgid "Unknown"
+msgstr ""
+
+#: FMain.class:681
+msgid "Usuario"
+msgstr "User"
+
+#: FMain.class:725
+msgid "WebHost"
+msgstr ""
+

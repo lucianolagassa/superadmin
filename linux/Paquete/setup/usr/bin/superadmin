@@ -1,0 +1,45 @@
+#!/bin/bash
+Abrir()
+{
+ cd /usr/lib/SuperAdmin
+ ./SuperAdmin.gambas
+}
+if [ -f "/usr/bin/gambas2" ]
+then
+ Abrir
+else
+ notify-send "SuperAdmin" -i "/usr/share/pixmaps/superadmin.png" "Error, Runtime y Librerias No Detectadas"
+ zenity --question --title="SuperAdmin" --window-icon="/usr/share/pixmaps/superadmin.png" --text="Runtime y Librerias No Detectadas, ¿Desea Instalar?" --ok-label="Aceptar" --cancel-label="Cancelar"
+ case $? in
+  0)
+   (
+    echo "50" ; sleep 1
+    echo "# Instalando Runtime" ; sleep 1
+    gksu apt-get install -y gambas2-runtime
+    echo "80" ; sleep 1
+    echo "# Instalando Librerias" ; sleep 1
+    gksu apt-get install -y gambas2-gb-gui gambas2-gb-form gambas2-gb-crypt gambas2-gb-image imagemagick
+    echo "100" ; sleep 1
+    echo "# Comprobando Sistema" ; sleep 1
+    gksu apt-get -f -y install
+   ) |
+   zenity --progress  --title="SuperAdmin" --window-icon="/usr/share/pixmaps/superadmin.png" --text="Instalando Runtime y Librerias" percentage=0
+   if [ "$?" = -1 ]
+   then
+    zenity --error  --title="SuperAdmin" --window-icon="/usr/share/pixmaps/superadmin.png" --text="Instalación Cancelada, La Aplicación No Funcionara sin Runtime y Librerias"
+    exit 0
+   else
+    zenity --info  --title="SuperAdmin" --window-icon="/usr/share/pixmaps/superadmin.png" --text="Instalación Completada"
+    Abrir
+   fi
+  ;;
+  *)
+   zenity --warning --title="SuperAdmin" --window-icon="/usr/share/pixmaps/superadmin.png" --text="Instalación Cancelada, La Aplicación No Funcionara sin Runtime y Librerias"
+   exit 0
+  ;;
+ esac
+fi
+
+
+
+

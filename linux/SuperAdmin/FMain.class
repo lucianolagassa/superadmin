@@ -1,0 +1,690 @@
+' Gambas class file
+' Variables Generales
+PUBLIC ConfigDir AS String
+PUBLIC ConfigFile AS String
+PUBLIC ImagesDir AS String
+PUBLIC InstallDir AS String
+PUBLIC ProfilesDir AS String
+'
+PUBLIC SUB _new()
+
+END
+
+PUBLIC SUB Form_Open()
+ DIM Archivo AS File
+ DIM Dato AS String
+ DIM Lineas AS String[] 
+ ME.Height = 528
+ ME.Width = 759
+ ME.Center
+ InfoVersion.Text = "0.14.08.15-1148"
+ ConfigDir = User.Home & "/.config/SuperAdmin/"
+ ConfigFile = ConfigDir & Lower$(System.Host) & ".conf"
+ InstallDir = "/usr/lib/SuperAdmin/"
+ ImagesDir = "/usr/share/icons/SuperAdmin/"
+ ProfilesDir = ConfigDir & "Profiles/"
+ IF IsNull(FLogin.HashTest) = TRUE THEN 
+  Message("Intento de Hacking Detectado, No se Puede Continuar")
+  QUIT  
+ ENDIF 
+ IF Exist(ConfigFile) = FALSE THEN
+  Message("Error en Archivo de Configuración, No se Puede Cargar Datos.")
+  QUIT 
+ ELSE 
+  Archivo = OPEN ConfigFile FOR INPUT
+   LINE INPUT #Archivo, Dato
+   WHILE NOT Eof(Archivo)
+    LINE INPUT #Archivo, Dato
+    IF Len(Dato) > 4 THEN 
+     Lineas = Split(Replace$(Dato, Comilla.Text, ""), ",", "\n", TRUE)
+     ProfilesText.Add(Lineas[0])
+     ProfilesName.Add(Lineas[1])
+    ENDIF 
+   WEND
+  CLOSE #Archivo
+ ENDIF 
+ ProfilesText_Click()
+END 
+
+PUBLIC SUB Develop_DblClick()
+ IF ME.Width = 759 THEN 
+  ME.Width = 1400
+ ELSE 
+  ME.Width = 759
+ ENDIF 
+ ME.Center
+END
+
+PRIVATE SUB CargaPerfil()
+ DIM Archivo AS File
+ DIM Crear AS Integer
+ DIM Dato AS String
+ DIM GroupImage AS NEW Image
+ DIM HostImage AS NEW Image
+ DIM Indice AS Integer
+ DIM Lineas AS String[]
+ DataGroup.Clear
+ DataName.Clear
+ DataText.Clear
+ DataUser.Clear
+ DataPass.Clear
+ DataHost.Clear
+ DataMode.Clear
+ DataType.Clear
+ IF Exist(ProfilesDir & ProfilesName.Text & "/Data.conf") = FALSE THEN
+  Message("Error en Archivo de Perfil, No se Puede Cargar Datos.")
+ ELSE 
+  Archivo = OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR INPUT
+   WHILE NOT Eof(Archivo)
+    LINE INPUT #Archivo, Dato
+    IF Len(Dato) > 14 THEN 
+     Lineas = Split(Replace$(Dato, Comilla.Text, ""), ",", "\n", TRUE)
+     DataGroup.Add(Lineas[0])
+     DataName.Add(Lineas[1])
+     DataText.Add(Lineas[2])
+     DataUser.Add(Lineas[3])
+     DataPass.Add(Lineas[4])
+     DataHost.Add(Lineas[5])
+     DataMode.Add(Upper$(Lineas[6]))
+     DataType.Add(Upper$(Lineas[7]))
+    ENDIF 
+   WEND
+  CLOSE #Archivo
+  Indice = DataGroup.Count - 1
+  FOR Crear = 0 TO Indice
+   IF Exist(ImagesDir & "type/group.png")
+    GroupImage = Image.Load(ImagesDir & "type/group.png")
+   ENDIF
+   IF Exist(ImagesDir & "/type/" & Lower$(DataType[Crear].Text) & ".png")
+    HostImage = Image.Load(ImagesDir & "type/" & Lower$(DataType[Crear].Text) & ".png")
+   ELSE  
+    IF Exist(ImagesDir & "type/notype.png") = TRUE THEN HostImage = Image.Load(ImagesDir & "type/notype.png")
+   ENDIF
+   IF GroupList.Exist(DataGroup[Crear].Text) = FALSE THEN 
+    GroupList.Add(DataGroup[Crear].Text, DataGroup[Crear].Text, GroupImage.Picture)
+   ENDIF 
+   IF GroupList.Exist(DataGroup[Crear].Text & "-" & DataName[Crear].Text) = FALSE THEN 
+    GroupList.Add(DataGroup[Crear].Text & "-" & DataName[Crear].Text, DataName[Crear].Text, HostImage.Picture, DataGroup[Crear].Text)
+   ENDIF 
+  NEXT  
+ ENDIF 
+END
+
+PUBLIC SUB CargaApp()
+ DIM Archivo AS File
+ DIM Dato AS String
+ DIM Indice AS Integer
+ DIM Lineas AS String[]
+ AppsMode.Clear
+ ItemMode.Clear
+ AppMode.Clear
+ AppsName.Clear
+ AppsBase.Clear
+ AppsMedio.Clear
+ AppsCompleto.Clear
+ IF Exist(ProfilesDir & ProfilesName.Text & "/App.conf") = FALSE THEN
+  Message("Error en Archivo de Comandos, No se Puede Cargar Datos")
+ ELSE
+  Archivo = OPEN ProfilesDir & ProfilesName.Text & "/App.conf" FOR INPUT
+   WHILE NOT Eof(Archivo)
+    LINE INPUT #Archivo, Dato
+    IF Len(Dato) > 4 THEN 
+     Lineas = Split(Replace$(Dato, Comilla.Text, ""), ",", "\n", TRUE)
+     AppsMode.Add(Lineas[0])
+     ItemMode.Add(Lineas[0])
+     AppMode.Add(Lineas[0])
+     AppsName.Add(Lineas[1])
+     AppsBase.Add(Lineas[2])
+     AppsMedio.Add(Lineas[3])
+     AppsCompleto.Add(Lineas[4])
+    ENDIF 
+   WEND
+  CLOSE #Archivo
+ ENDIF 
+END
+
+PUBLIC SUB GroupList_Click()
+ DIM BuscarItem AS Integer
+ DIM BuscarApp AS Integer
+ DIM IndiceItem AS Integer
+ DIM IndiceApp AS Integer
+ DIM ItemImage AS NEW Image
+ ItemList.Clear
+ IndiceItem = DataName.Count - 1
+ IndiceApp = AppsMode.Count - 1
+ FOR BuscarItem = 0 TO IndiceItem
+  IF DataGroup[BuscarItem].Text & "-" & DataName[BuscarItem].Text = GroupList.Current.Key THEN
+   IF Exist(ImagesDir & "app/nomode.png") = TRUE THEN ItemImage = Image.Load(ImagesDir & "app/nomode.png")
+   FOR BuscarApp = 0 TO IndiceApp
+    IF AppsMode[BuscarApp].Text = DataMode[BuscarItem].Text THEN 
+     IF Exist(ImagesDir & "app/" & AppsName[BuscarApp].Text & ".png")
+      ItemImage = Image.Load(ImagesDir & "app/" & AppsName[BuscarApp].Text & ".png")
+     ENDIF
+    ENDIF 
+   NEXT
+   ItemList.Add(BuscarItem, DataText[BuscarItem].Text, ItemImage.Picture)
+  ENDIF 
+ NEXT 
+END
+
+PUBLIC SUB ItemList_DblClick()
+ DIM BuscarApp AS Integer
+ DIM IndiceApp AS Integer
+ DIM ComandoBase AS String
+ DIM ComandoCompleto AS String
+ DIM ComandoMedio AS String
+ DIM AppNameTemp AS String
+ DIM Lineas AS String[]
+ IF ItemList.Count = 0 THEN
+  RETURN 
+ ENDIF 
+ IndiceApp = AppsMode.Count - 1
+ FOR BuscarApp = 0 TO IndiceApp
+  IF AppsMode[BuscarApp].Text = DataMode[ItemList.Current.Key].Text THEN 
+   'ComandoBase = Replace(Replace(Replace$(AppsBase[BuscarApp].Text, Comilla.Text, ""), "##HOST##", DataHost[ItemList.Current.Key].Text), "##APP##", AppName[BuscarApp].Text)
+   'ComandoMedio = Replace(Replace(Replace(Replace$(AppsMedio[BuscarApp].Text, Comilla.Text, ""), "##USER##", DataUser[ItemList.Current.Key].Text), "##HOST##", DataHost[ItemList.Current.Key].Text), "##APP##", AppName[BuscarApp].Text)
+   'ComandoCompleto = Replace(Replace(Replace(Replace$(Replace$(AppsCompleto[BuscarApp].Text, Comilla.Text, ""), "##PASS##", DataPass[ItemList.Current.Key].Text), "##USER##", DataUser[ItemList.Current.Key].Text), "##HOST##", DataHost[ItemList.Current.Key].Text), "##APP##", AppName[BuscarApp].Text)
+   AppNameTemp = AppsName[BuscarApp].Text
+   ComandoBase = Replace(Replace$(AppsBase[BuscarApp].Text, Comilla.Text, ""), "##HOST##", DataHost[ItemList.Current.Key].Text)
+   ComandoMedio = Replace(Replace(Replace$(AppsMedio[BuscarApp].Text, Comilla.Text, ""), "##USER##", DataUser[ItemList.Current.Key].Text), "##HOST##", DataHost[ItemList.Current.Key].Text)
+   ComandoCompleto = Replace(Replace(Replace$(Replace$(AppsCompleto[BuscarApp].Text, Comilla.Text, ""), "##PASS##", DataPass[ItemList.Current.Key].Text), "##USER##", DataUser[ItemList.Current.Key].Text), "##HOST##", DataHost[ItemList.Current.Key].Text)
+  ENDIF 
+ NEXT
+ IF InStr(ComandoCompleto, "NO") = FALSE THEN
+  SHELL AppNameTemp & " " & ComandoCompleto
+ ELSE IF InStr(ComandoMedio, "NO") = FALSE THEN
+  SHELL AppNameTemp & " " & ComandoMedio
+ ELSE IF InStr(ComandoBase, "NO") = FALSE THEN
+  SHELL AppNameTemp & " " & ComandoBase
+ ENDIF 
+END
+
+PUBLIC SUB AppConfig_Click()
+ DIM TempImage AS NEW Image
+ AppMode.Text = "Seleccionar Modo"
+ AppName.Clear
+ AppBase.Clear
+ AppMedio.Clear
+ AppCompleto.Clear
+ IF Exist(ImagesDir & "app/nomode.png") = TRUE THEN
+  TempImage = Image.Load(ImagesDir & "app/nomode.png")
+  AppModeImage.Picture = TempImage.Picture 
+ ENDIF 
+ AppPanel.X = 133
+ AppPanel.Y = 85
+ AppPanel.Visible = TRUE
+ MainPanel.Enabled = FALSE
+END
+
+PUBLIC SUB AppCancelar_Click()
+ MainPanel.Enabled = TRUE
+ AppPanel.Visible = FALSE
+END
+
+PUBLIC SUB AppAceptar_Click()
+ Message("Función No Disponible.")
+ MainPanel.Enabled = TRUE
+ AppPanel.Visible = FALSE
+END
+
+PUBLIC SUB AppMode_Click()
+ DIM TempImage AS NEW Image
+ IF AppMode.Index = -1 THEN RETURN 
+ AppName.Text = AppsName[AppMode.Index].Text
+ AppBase.Text = AppsBase[AppMode.Index].Text
+ AppMedio.Text = AppsMedio[AppMode.Index].Text
+ AppCompleto.Text = AppsCompleto[AppMode.Index].Text
+ IF Exist(ImagesDir & "app/" & Lower$(AppsName[AppMode.Index].Text) & ".png")
+  TempImage = Image.Load(ImagesDir & "app/" & Lower$(AppsName[AppMode.Index].Text) & ".png")
+  AppModeImage.Picture = TempImage.Picture 
+ ELSE 
+  IF Exist(ImagesDir & "app/nomode.png") = TRUE THEN
+   TempImage = Image.Load(ImagesDir & "app/nomode.png")
+   AppModeImage.Picture = TempImage.Picture 
+  ENDIF 
+ ENDIF
+END
+
+PUBLIC SUB InfoAbrir_Click()
+ InfoPanel.X = 133
+ InfoPanel.Y = 7
+ InfoPanel.Visible = TRUE
+ MainPanel.Enabled = FALSE
+END
+
+PUBLIC SUB InfoCerrar_Click()
+ MainPanel.Enabled = TRUE
+ infoPanel.Visible = FALSE
+END
+
+PUBLIC SUB InfoWeb_Click()
+ Desktop.Open("http://www.lagasystems.com.ar/")
+END
+
+PUBLIC SUB Form_Close()
+ QUIT 
+END
+
+PUBLIC SUB ProfilesText_Click()
+ DIM TempImage AS NEW Image
+ ProfilesName.Index = ProfilesText.Index
+ IF Exist(ProfilesDir & ProfilesName.Text & "/Logo.png")
+  TempImage = Image.Load(ProfilesDir & ProfilesName.Text & "/Logo.png")
+ ELSE  
+  IF Exist(ImagesDir & "nologo.png") = TRUE THEN TempImage = Image.Load(ImagesDir & "nologo.png")
+ ENDIF 
+ FMain.Text = "SuperAdmin - " & ProfilesText.Text
+ ProfilesImage.Picture = TempImage.Picture
+ GroupList.Clear
+ ItemList.Clear
+ CargaPerfil
+ CargaApp()
+END
+
+PUBLIC SUB ProfilesText_Menu()
+ 'MenuProfile Show
+ IF ProfilesName.Count > 0 THEN 
+  MenuProfileEliminar.Enabled = TRUE
+  MenuProfileModificar.Enabled = TRUE
+  MenuProfileNuevo.Enabled = TRUE
+ ELSE 
+  MenuProfileEliminar.Enabled = FALSE
+  MenuProfileModificar.Enabled = FALSE
+  MenuProfileNuevo.Enabled = TRUE
+ END IF
+ MenuProfile.Popup
+END
+
+PUBLIC SUB MenuProfileNuevo_Click()
+ 'MenuPorfile Nuevo
+ DIM TempImage AS NEW Image
+ ProfileTitle.Text = "Nuevo Perfil"
+ IF Exist(ImagesDir & "nologo.png") = TRUE THEN
+  TempImage = Image.Load(ImagesDir & "nologo.png")
+  ProfileLogo.Text = ImagesDir & "nologo.png"
+  ProfileLogoImage.Picture = TempImage.Picture
+ ENDIF 
+ ProfileName.SetFocus
+ ProfilePanel.Y = 133
+ ProfilePanel.X = 119
+ ProfilePanel.Visible = TRUE
+ MainPanel.Enabled = FALSE
+END
+
+PUBLIC SUB MenuProfileModificar_Click()
+ 'MenuProfile Modificar
+ DIM TempImage AS NEW Image
+ ProfilesName.Index = ProfilesText.Index
+ ProfileTitle.Text = "Modificar Perfil"
+ ProfileName.Text = ProfilesName.Text
+ ProfileName.ReadOnly = TRUE
+ ProfileText.Text = ProfilesText.Text
+ ProfileText.SetFocus
+ IF Exist(ProfilesDir & ProfilesName.Text & "/Logo.png")
+  TempImage = Image.Load(ProfilesDir & ProfilesName.Text & "/Logo.png")
+  ProfileLogo.Text = ProfilesDir & ProfilesName.Text & "/Logo.png"
+  ProfileLogoImage.Picture = TempImage.Picture
+ ELSE  
+  IF Exist(ImagesDir & "nologo.png") = TRUE THEN
+   TempImage = Image.Load(ImagesDir & "nologo.png")
+   ProfileLogo.Text = ImagesDir & "nologo.png"
+   ProfileLogoImage.Picture = TempImage.Picture
+  ENDIF 
+ ENDIF 
+ ProfilePanel.Y = 133
+ ProfilePanel.X = 119
+ ProfilePanel.Visible = TRUE
+ MainPanel.Enabled = FALSE
+END
+
+PUBLIC SUB MenuProfileEliminar_Click()
+ 'MenuProfile Eliminar
+ Message("Función No Disponible.")
+END
+
+PUBLIC SUB ProfileOpen_Click()
+ DIM TempImage AS NEW Image
+ DIM TemFile AS String
+ Dialog.Title = "Abrir Logo de Perfil"
+ Dialog.Filter = ["*.png", "Todos las Imágenes PNG"]
+ IF Dialog.OpenFile() THEN
+  RETURN
+ ELSE
+  IF Exist(Dialog.Path)
+   TemFile = "/tmp/SuperAdmin-" & Year(Now) & Month(Now) & Day(Now) & "-" & Hour(Now) & Minute(Now) & Second(Now) & ".png"
+   COPY Dialog.Path TO TemFile
+   SHELL "mogrify -resize 38 " & TemFile WAIT 
+   TempImage = Image.Load(TemFile)
+   ProfileLogo.Text = Dialog.Path
+   ProfileLogoImage.Picture = TempImage.Picture
+  ELSE  
+   IF Exist(ImagesDir & "nologo.png") = TRUE THEN
+    TempImage = Image.Load(ImagesDir & "nologo.png")
+    ProfileLogo.Text = ImagesDir & "nologo.png"
+    ProfileLogoImage.Picture = TempImage.Picture
+    Message("Error en la Imagen Seleccionada, Se Utilizar Logo Generico")
+   ENDIF 
+  ENDIF 
+ ENDIF 
+END
+
+PUBLIC SUB ProfileCancelar_Click()
+ 'Cancelar Perfil
+ ProfileName.Clear
+ ProfileName.ReadOnly = FALSE
+ ProfileText.Clear
+ ProfilePanel.Visible = FALSE
+ MainPanel.Enabled = TRUE
+END
+
+PUBLIC SUB ProfileAceptar_Click()
+ 'Guardar Perfil
+ DIM Archivo AS File
+ DIM Guardar AS Integer
+ DIM HashData AS String
+ DIM Indice AS Integer
+ IF ProfileTitle.Text = "Nuevo Perfil" THEN 
+  ' Crear Perfil Nuevo
+  IF Exist(ProfilesDir & ProfileName.Text) = TRUE THEN
+   Message("El Perfil Ya Existe, Utilizar Otro Nombre")
+   ProfileName.SetFocus
+   RETURN 
+  ENDIF  
+  IF ProfilesText.Find(ProfileText.Text) >= 0 THEN
+   IF ProfilesText[ProfilesText.Find(ProfileText.Text)].Text = ProfileText.Text THEN 
+    Message("El Perfil Ya Existe, Utilizar Otro Texto")
+    ProfileText.SetFocus
+    RETURN 
+   ENDIF 
+  ENDIF 
+  MKDIR ProfilesDir & ProfileName.Text
+  COPY InstallDir & "Demo/App.conf" TO ProfilesDir & ProfileName.Text & "/App.conf"
+  OPEN ProfilesDir & ProfileName.Text & "/Data.conf" FOR CREATE AS #Archivo
+   PRINT #Archivo, ""
+  CLOSE #Archivo
+  IF Exist(ProfileLogo.Text) = TRUE THEN
+   IF ProfileLogo.Text = ImagesDir & "nologo.png" THEN 
+    Message("No se Selecciono un Logo, Se Utilizar Logo Generico")
+   ENDIF 
+   COPY ProfileLogo.Text TO ProfilesDir & ProfileName.Text & "/Logo.png"
+   SHELL "mogrify -resize 38 " & ProfilesDir & ProfileName.Text & "/Logo.png" WAIT 
+  ELSE 
+   Message("El Logo Seleccionado No Existe, Se Utilizar Logo Generico")
+   COPY ImagesDir & "nologo.png" TO ProfilesDir & ProfileName.Text & "/Logo.png"
+  ENDIF 
+  ProfilesText.Add(ProfileText.Text)
+  ProfilesName.Add(ProfileName.Text)
+ ELSE 
+ ' Modificar Perfil Existente
+  IF ProfilesText.Find(ProfileText.Text) >= 0 THEN
+   IF ProfilesText[ProfilesText.Find(ProfileText.Text)].Text = ProfileText.Text THEN 
+    IF ProfilesText.Find(ProfileText.Text) <> ProfilesText.Index THEN 
+     Message("El Perfil Ya Existe, Utilizar Otro Texto")
+     ProfileText.SetFocus
+     RETURN 
+    ENDIF 
+   ENDIF 
+  ENDIF
+  ProfilesText.Remove(ProfilesName.Index)
+  ProfilesText.Add(ProfileText.Text, ProfilesName.Index)
+  ProfileName.ReadOnly = FALSE
+ ENDIF 
+ Indice = ProfilesName.Count - 1
+ Archivo = OPEN ConfigFile FOR INPUT
+  LINE INPUT #Archivo, HashData
+ CLOSE #Archivo
+ OPEN ConfigFile FOR CREATE AS #Archivo
+  PRINT #Archivo, HashData
+  FOR Guardar = 0 TO Indice
+   PRINT #Archivo, Comilla.Text & ProfilesText[Guardar].Text & Comilla.Text & "," & Comilla.Text & ProfilesName[Guardar].Text & Comilla.Text
+  NEXT 
+ CLOSE #Archivo
+ ProfileName.Clear
+ ProfileText.Clear
+ ProfileLogo.Clear
+ ProfilePanel.Visible = FALSE
+ MainPanel.Enabled = TRUE
+END
+
+PUBLIC SUB GroupList_Menu()
+ 'MenuGroup Show
+ 'IF GroupList.Count > 0 THEN 
+ ' MenuGroupEliminar.Enabled = TRUE
+ ' MenuGroupModificar.Enabled = TRUE
+ ' MenuGroupNuevo.Enabled = TRUE
+ 'ELSE 
+ ' MenuGroupEliminar.Enabled = FALSE
+ ' MenuGroupModificar.Enabled = FALSE
+ ' MenuGroupNuevo.Enabled = TRUE
+ 'END IF
+ 'MenuGroup.Popup
+ Message("Función No Disponible.")
+END
+
+PUBLIC SUB MenuGroupNuevo_Click()
+ 'MenuGroup Nuevo
+ 'MainPanel.Enabled = FALSE
+ 'ItemPanel.Visible = TRUE
+ Message("Función No Disponible.")
+END
+
+PUBLIC SUB MenuGroupModificar_Click()
+ 'MenuGroup Modificar
+ 'MainPanel.Enabled = FALSE
+ 'ItemPanel.Visible = TRUE
+ Message("Función No Disponible.")
+END
+
+PUBLIC SUB MenuGroupEliminar_Click()
+ 'MenuGroup Eliminar
+ Message("Función No Disponible.")
+END
+
+PUBLIC SUB ItemList_Menu()
+ 'MenuItem Show
+ IF ItemList.Count > 0 THEN 
+  MenuItemEjecutar.Enabled = TRUE
+  MenuItemEliminar.Enabled = TRUE
+  MenuItemModificar.Enabled = TRUE
+  MenuItemNuevo.Enabled = TRUE
+ ELSE 
+  MenuItemEjecutar.Enabled = FALSE
+  MenuItemEliminar.Enabled = FALSE
+  MenuItemModificar.Enabled = FALSE
+  MenuItemNuevo.Enabled = TRUE
+ END IF
+ MenuItem.Popup
+END
+
+PUBLIC SUB MenuItemEjecutar_Click()
+ 'MenuItem Abrir
+ ItemList_DblClick()
+END
+
+PUBLIC SUB MenuItemModificar_Click()
+ 'MenuItem Editar
+ DIM TempImage AS NEW Image
+ IF Exist(ImagesDir & "type/" & Lower$(DataType[ItemList.Current.Key].Text) & ".png")
+  TempImage = Image.Load(ImagesDir & "type/" & Lower$(DataType[ItemList.Current.Key].Text) & ".png")
+  ItemTypeImage.Picture = TempImage.Picture 
+ ELSE 
+  IF Exist(ImagesDir & "type/notype.png") = TRUE THEN
+   TempImage = Image.Load(ImagesDir & "type/notype.png")
+   ItemTypeImage.Picture = TempImage.Picture 
+  ENDIF 
+ ENDIF
+ ItemTitle.Text = "Modificar Servicio"
+ ItemGroup.Text = DataGroup[ItemList.Current.Key].Text
+ ItemName.Text = DataName[ItemList.Current.Key].Text
+ ItemText.Text = DataText[ItemList.Current.Key].Text
+ ItemUser.Text = DataUser[ItemList.Current.Key].Text
+ ItemPass.Text = DataPass[ItemList.Current.Key].Text
+ ItemHost.Text = DataHost[ItemList.Current.Key].Text
+ ItemMode.Text = DataMode[ItemList.Current.Key].Text
+ ItemType.Text = Upper$(DataType[ItemList.Current.Key].Text)
+ ItemGroup.SetFocus
+ ItemPanel.X = 133
+ ItemPanel.Y = 42
+ MainPanel.Enabled = FALSE
+ ItemPanel.Visible = TRUE
+END
+
+PUBLIC SUB MenuItemNuevo_Click()
+ 'MenuItem Nuevo
+ DIM TempImage AS NEW Image
+ IF Exist(ImagesDir & "type/notype.png") = TRUE THEN
+  TempImage = Image.Load(ImagesDir & "type/notype.png")
+  ItemTypeImage.Picture = TempImage.Picture 
+ ENDIF
+ ItemTitle.Text = "Nuevo Servicio"
+ ItemGroup.SetFocus
+ ItemPanel.X = 133
+ ItemPanel.Y = 42
+ MainPanel.Enabled = FALSE
+ ItemPanel.Visible = TRUE
+END
+
+PUBLIC SUB MenuItemEliminar_Click()
+ 'MenuItem Quitar
+ DIM Archivo AS File
+ DIM Guardar AS Integer
+ DIM Indice AS Integer
+ 'DIM Codigo AS String
+ DIM Dato AS String
+ DIM Lineas AS String[]
+ ListaBackup.Clear
+ IF Exist(ProfilesDir & ProfilesName.Text & "/Data.conf") = FALSE THEN
+  Message("Error en Archivo de Perfil, No se Puede Cargar Datos.")
+ ELSE 
+  Archivo = OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR INPUT
+   WHILE NOT Eof(Archivo)
+    LINE INPUT #Archivo, Dato
+    IF Len(Dato) > 14 THEN 
+     Lineas = Split(Replace$(Dato, Comilla.Text, ""), ",", "\n", TRUE)
+     IF Lineas[0] = DataGroup[ItemList.Current.Key].Text THEN 
+      IF Lineas[1] = DataName[ItemList.Current.Key].Text THEN 
+       IF Lineas[2] <> DataText[ItemList.Current.Key].Text THEN 
+        ListaBackup.Add(Dato)
+       ENDIF 
+      ELSE 
+       ListaBackup.Add(Dato)
+      ENDIF 
+     ELSE 
+      ListaBackup.Add(Dato)
+     ENDIF 
+    ENDIF 
+   WEND
+  CLOSE #Archivo
+  Indice = ListaBackup.Count - 1
+  OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR CREATE AS #Archivo
+   FOR Guardar = 0 TO Indice
+    PRINT #Archivo, ListaBackup[Guardar].Text
+   NEXT 
+  CLOSE #Archivo
+ ENDIF 
+ CargaPerfil()
+ GroupList_Click()
+END
+
+PUBLIC SUB ItemCancelar_Click()
+ 'Cancelar
+ ItemGroup.Clear
+ ItemName.Clear
+ ItemText.Clear
+ ItemUser.Clear
+ ItemPass.Clear
+ ItemHost.Clear
+ ItemType.Text = "Seleccionar Modo"
+ ItemMode.Text = "Seleccionar Tipo"
+ MainPanel.Enabled = TRUE
+ ItemPanel.Visible = FALSE
+END
+
+PUBLIC SUB ItemAceptar_Click()
+ 'Guardar Datos de Item
+ DIM Archivo AS File
+ DIM Guardar AS Integer
+ DIM Indice AS Integer
+ DIM Dato AS String
+ DIM Lineas AS String[]
+ IF ItemTitle.Text = "Nuevo Servicio" THEN 
+  ListaBackup.Clear
+  IF Exist(ProfilesDir & ProfilesName.Text & "/Data.conf") = FALSE THEN
+   Message("Error en Archivo de Perfil, No se Puede Cargar Datos.")
+  ELSE 
+   Archivo = OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR INPUT
+    WHILE NOT Eof(Archivo)
+     LINE INPUT #Archivo, Dato
+     IF Len(Dato) > 14 THEN 
+      ListaBackup.Add(Dato)
+     ENDIF 
+    WEND
+   CLOSE #Archivo
+  ENDIF 
+  Dato = Comilla.Text & ItemGroup.Text & Comilla.Text & "," & Comilla.Text & ItemName.Text & Comilla.Text & "," & Comilla.Text & ItemText.Text & Comilla.Text & "," & Comilla.Text & ItemUser.Text & Comilla.Text & "," & Comilla.Text & ItemPass.Text & Comilla.Text & "," & Comilla.Text & ItemHost.Text & Comilla.Text & "," & Comilla.Text & ItemMode.Text & Comilla.Text & "," & Comilla.Text & Upper$(ItemType.Text) & Comilla.Text
+  ListaBackup.Add(Dato)
+ ENDIF 
+ IF ItemTitle.Text = "Modificar Servicio" THEN 
+  ListaBackup.Clear
+  IF Exist(ProfilesDir & ProfilesName.Text & "/Data.conf") = FALSE THEN
+   Message("Error en Archivo de Perfil, No se Puede Cargar Datos.")
+  ELSE 
+   Archivo = OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR INPUT
+    WHILE NOT Eof(Archivo)
+     LINE INPUT #Archivo, Dato
+     IF Len(Dato) > 14 THEN 
+      Lineas = Split(Replace$(Dato, Comilla.Text, ""), ",", "\n", TRUE)
+      IF Lineas[0] = DataGroup[ItemList.Current.Key].Text THEN 
+       IF Lineas[1] = DataName[ItemList.Current.Key].Text THEN 
+        IF Lineas[2] = DataText[ItemList.Current.Key].Text THEN 
+         Dato = Comilla.Text & ItemGroup.Text & Comilla.Text & "," & Comilla.Text & ItemName.Text & Comilla.Text & "," & Comilla.Text & ItemText.Text & Comilla.Text & "," & Comilla.Text & ItemUser.Text & Comilla.Text & "," & Comilla.Text & ItemPass.Text & Comilla.Text & "," & Comilla.Text & ItemHost.Text & Comilla.Text & "," & Comilla.Text & ItemMode.Text & Comilla.Text & "," & Comilla.Text & Upper$(ItemType.Text) & Comilla.Text
+         ListaBackup.Add(Dato)
+        ELSE 
+         ListaBackup.Add(Dato)
+        ENDIF 
+       ELSE 
+        ListaBackup.Add(Dato)
+       ENDIF 
+      ELSE 
+       ListaBackup.Add(Dato)
+      ENDIF 
+     ENDIF 
+    WEND
+   CLOSE #Archivo
+  ENDIF 
+ ENDIF 
+ IF ListaBackup.Count <> 0 THEN 
+  Indice = ListaBackup.Count - 1
+  OPEN ProfilesDir & ProfilesName.Text & "/Data.conf" FOR CREATE AS #Archivo
+   FOR Guardar = 0 TO Indice
+    PRINT #Archivo, ListaBackup[Guardar].Text
+   NEXT 
+  CLOSE #Archivo
+  CargaPerfil()
+  GroupList_Click()
+ ENDIF 
+ ItemGroup.Clear
+ ItemName.Clear
+ ItemText.Clear
+ ItemUser.Clear
+ ItemPass.Clear
+ ItemHost.Clear
+ ItemType.Text = "Seleccionar Modo"
+ ItemMode.Text = "Seleccionar Tipo"
+ ListaBackup.Clear
+ MainPanel.Enabled = TRUE
+ ItemPanel.Visible = FALSE
+END
+
+PUBLIC SUB ItemType_Click()
+ DIM TempImage AS NEW Image
+ IF Exist(ImagesDir & "type/" & Lower$(ItemType.Text) & ".png")
+  TempImage = Image.Load(ImagesDir & "type/" & Lower$(ItemType.Text) & ".png")
+  ItemTypeImage.Picture = TempImage.Picture 
+ ELSE 
+  IF Exist(ImagesDir & "type/notype.png") = TRUE THEN
+   TempImage = Image.Load(ImagesDir & "type/notype.png")
+   ItemTypeImage.Picture = TempImage.Picture 
+  ENDIF 
+ ENDIF
+END

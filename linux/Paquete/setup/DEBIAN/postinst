@@ -1,0 +1,14 @@
+#!/bin/sh
+chmod 755 /usr/bin/superadmin
+chmod +x /usr/bin/superadmin
+chmod -R 755 /usr/lib/SuperAdmin
+chmod 755 /usr/lib/SuperAdmin/SuperAdmin.gambas
+chmod +x /usr/lib/SuperAdmin/SuperAdmin.gambas
+chmod -R 755 /usr/lib/SuperAdmin/Demo
+chmod 755 /usr/lib/SuperAdmin/Demo/App.conf
+chmod 755 /usr/lib/SuperAdmin/Demo/Config.conf
+chmod 755 /usr/lib/SuperAdmin/Demo/Data.conf
+chmod -R 755 /usr/share/icons/SuperAdmin
+chmod 755 /usr/share/pixmaps/superadmin.png
+chmod 755 /usr/share/applications/superadmin.desktop
+chmod +x /usr/share/applications/superadmin.desktop

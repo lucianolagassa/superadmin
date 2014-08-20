@@ -1,0 +1,8 @@
+Package: superadmin
+Version: 0.14.08.15-1148
+Architecture: all
+Depends: gambas2-runtime, gambas2-gb-gui, gambas2-gb-form, gambas2-gb-crypt, gambas2-gb-image, imagemagick
+Maintainer: LAGA Systems <info@lagasystems.com.ar>
+Section: Networking
+Priority: optional
+Description: Gestor de Conecciones para Administrar Multiples Equipos, Permite Utilizar Diferentes Perfiles y Agrupar Equipos con sus Servicios.

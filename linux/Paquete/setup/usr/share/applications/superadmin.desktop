@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=SuperAdmin
+Comment=Sistema de Administración Remota
+Exec=superadmin
+Icon=superadmin
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Internet;Network;
